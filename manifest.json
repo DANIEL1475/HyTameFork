@@ -1,0 +1,31 @@
+{
+    "Group": "HyTame",
+    "Name": "HyTame",
+    "Version": "1.6.0",
+    "Description": "Adds realistic breeding mechanics for farm animals",
+    "Authors": [
+        {
+            "Name": "Lait",
+            "Email": "lait.kelomins@gmail.com",
+            "Url": ""
+        },
+        {
+            "Name": "TheBrandolorian",
+            "Email": "",
+            "Url": ""
+        }
+    ],
+    "Website": "",
+    "Main": "com.hytame.HyTamePlugin",
+    "ServerVersion": "^0.5.3",
+    "Dependencies": {
+        "com.hypersonicsharkz:Hytalor": "*"
+    },
+    "OptionalDependencies": {
+        "com.buuz135:SimpleClaims": "*"
+    },
+    "IncludesAssetPack": true,
+    "UpdateChecker": {
+        "CurseForge": "1431060"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "Type": "OpenConfigPanel",
+    "Effects": {
+        "ItemAnimationId": "Use",
+        "WaitForAnimationToFinish": false
+    }
+}

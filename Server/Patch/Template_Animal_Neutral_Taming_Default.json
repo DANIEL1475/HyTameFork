@@ -1,0 +1,60 @@
+{
+    "$Comment": "Add taming/feeding to all Animal_Neutral variants with AttractiveItemSet (non-livestock: Flamingo, Penguin, Deer, etc.)",
+    "_BaseAssetPath": "Server/NPC/Roles/_Core/Templates/Template_Animal_Neutral.json",
+    "InteractionInstruction": {
+        "Enabled": {
+            "Compute": "!isEmptyStringArray(AttractiveItemSet)"
+        },
+        "Instructions": [
+            {
+                "$Comment": "Block for HyTame tameable animals - inserted before the catch-all SetInteractable(false)",
+                "_op": "add",
+                "_index": 2,
+                "Enabled": {
+                    "Compute": "!isEmptyStringArray(AttractiveItemSet)"
+                },
+                "Instructions": [
+                    {
+                        "$Comment": "Wild animal = Tame",
+                        "Continue": true,
+                        "Sensor": {
+                            "Type": "Not",
+                            "Sensor": {
+                                "Type": "Tamed",
+                                "Set": true
+                            }
+                        },
+                        "Actions": [
+                            {
+                                "Type": "SetInteractable",
+                                "Interactable": true,
+                                "ShowPrompt": false
+                            }
+                        ]
+                    },
+                    {
+                        "$Comment": "Tamed animal = Feed",
+                        "Continue": true,
+                        "Sensor": {
+                            "Type": "Tamed",
+                            "Set": true
+                        },
+                        "Actions": [
+                            {
+                                "Type": "SetInteractable",
+                                "Interactable": true,
+                                "ShowPrompt": false
+                            }
+                        ]
+                    },
+                    {
+                        "Sensor": { "Type": "HasInteracted" },
+                        "Actions": [
+                            { "Type": "HyTameFeedInteraction" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
