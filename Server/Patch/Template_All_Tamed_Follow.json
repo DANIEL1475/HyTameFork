@@ -1,0 +1,48 @@
+{
+    "$Comment": "[HYTAME] Tamed animals follow player holding AttractiveItemSet",
+    "_BaseAssetPath": "regex:Server/NPC/Roles/_Core/Templates/Template_(?!Livestock\\b).+\\.json",
+    "_priority": 90,
+    "Parameters": {
+        "AttractiveItemSet": {
+            "Value": [],
+            "TypeHint": "String",
+            "Description": "Items the animal follows when held by player (set per-animal by HyTame)"
+        },
+        "BreedCooldownTimeout": {
+            "Value": ["PT2H30M", "PT2H30M"],
+            "Description": "Cooldown between breeding (ISO 8601 game-time, 30x real). Default 5 real min."
+        }
+    },
+    "Instructions": [
+        {
+            "_op": "add",
+            "_index": 0,
+            "Enabled": { "Compute": "!isEmptyStringArray(AttractiveItemSet)" },
+            "$Comment": "[HYTAME] Tamed + player holds AttractiveItemSet = follow (no Continue — cuts chain, prevents detection/attack)",
+            "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                    { "Type": "Tamed", "Set": true },
+                    {
+                        "Type": "Player",
+                        "Range": 30,
+                        "LockOnTarget": true,
+                        "Filters": [
+                            { "Type": "ItemInHand", "Items": { "Compute": "AttractiveItemSet" } }
+                        ]
+                    }
+                ]
+            },
+            "Actions": [
+                { "Type": "OverrideAttitude", "Attitude": "Friendly", "Duration": 10 }
+            ],
+            "HeadMotion": { "Type": "Watch" },
+            "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 3.5,
+                "StopDistance": 2,
+                "RelativeSpeed": 0.7
+            }
+        }
+    ]
+}

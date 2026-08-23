@@ -1,0 +1,10 @@
+{
+    "$Comment": "Default AttractiveItemSet for cactee creatures",
+    "_BaseAssetPath": "Server/NPC/Roles/_Core/Templates/Template_Beasts_Passive_Cactee.json",
+    "_priority": 100,
+    "Parameters": {
+        "AttractiveItemSet": {
+            "Value": ["Plant_Cactus_Flower"]
+        }
+    }
+}

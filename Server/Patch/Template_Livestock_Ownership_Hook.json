@@ -1,0 +1,53 @@
+{
+    "$Comment": "[HYTAME] Inject ownership hook before vanilla taming + add blue taming particles",
+    "_BaseAssetPath": "Server/NPC/Roles/_Core/Templates/Template_Animal_Neutral.json",
+    "_priority": 100,
+    "InteractionInstruction": {
+        "Instructions": [
+            {
+                "_find": { "Enabled": { "Compute": "IsTameable" } },
+                "Instructions": [
+                    {
+                        "_find": { "Sensor": { "Type": "HasInteracted" } },
+                        "Instructions": [
+                            {
+                                "_op": "add",
+                                "_index": 0,
+                                "Continue": true,
+                                "$Comment": "[HYTAME] Set ownership before vanilla taming proceeds",
+                                "Sensor": {
+                                    "Type": "Target",
+                                    "TargetSlot": "InteractionTarget",
+                                    "Filters": [
+                                        {
+                                            "Enabled": { "Compute": "!isEmptyStringArray(AttractiveItemSet)" },
+                                            "Type": "ItemInHand",
+                                            "Hand": "Main",
+                                            "Items": { "Compute": "AttractiveItemSet" }
+                                        }
+                                    ]
+                                },
+                                "Actions": [
+                                    { "Type": "HyTameFeedInteraction" }
+                                ]
+                            },
+                            {
+                                "_find": { "$Comment": "Get tamed" },
+                                "Actions": [
+                                    {
+                                        "_op": "add",
+                                        "_index": 2,
+                                        "Type": "SpawnParticles",
+                                        "ParticleSystem": "TameHearts",
+                                        "Offset": { "Compute": "ParticleOffset" },
+                                        "TargetNodeName": "Head"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

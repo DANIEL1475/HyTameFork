@@ -1,0 +1,19 @@
+$C = "../Common.ui";
+
+Group {
+  LayoutMode: Left;
+  Anchor: (Height: 40);
+
+  Label #perClaimLimitLabel {
+    Text: "Per-Claim Limit";
+    Style: (FontSize: 13, TextColor: #cccccc);
+    FlexWeight: 1;
+  }
+  $C.@TextField #perClaimLimitInput {
+    Anchor: (Width: 60, Height: 34, Right: 4);
+  }
+  $C.@SecondaryTextButton #perClaimLimitToggleBtn {
+    @Anchor = (Width: 90, Height: 34);
+    Text: "OFF";
+  }
+}

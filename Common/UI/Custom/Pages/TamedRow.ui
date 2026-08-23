@@ -1,0 +1,36 @@
+$C = "../Common.ui";
+
+// Tamed animal row for scrollable list
+// Appended dynamically via cmd.append("#animalRows", "Pages/TamedRow.ui")
+// Layout: [icon 36px] [name button fills] [status 80px] [growth 70px]
+
+Group {
+  LayoutMode: Left;
+  Anchor: (Height: 40, Bottom: 2);
+
+  // Icon
+  Group #icon { Anchor: (Width: 36, Height: 36, Right: 4); }
+
+  // Name / select button (fills remaining width)
+  TextButton #selectBtn {
+    FlexWeight: 1;
+    Anchor: (Height: 34, Right: 4);
+    Text: "";
+    Style: $C.@SecondaryTextButtonStyle;
+  }
+
+  // Status container (populated via appendInline with colored label)
+  Group #statusContainer {
+    Anchor: (Width: 80, Height: 34, Right: 4);
+  }
+
+  // Growth stage label
+  Label #growthLabel {
+    Anchor: (Width: 70, Height: 34);
+    Text: "-";
+    Style: (FontSize: 11, TextColor: #aaaaaa, Alignment: Center, VerticalAlignment: Center);
+  }
+
+  // Hidden action field
+  $C.@TextField #selectAction { Anchor: (Width: 0, Height: 0); }
+}

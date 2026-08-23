@@ -1,0 +1,33 @@
+{
+    "$Comment": "[HYTAME] Add breed cooldown support to tamed livestock",
+    "_BaseAssetPath": "Server/NPC/Roles/_Core/Templates/Template_Livestock.json",
+    "_priority": 100,
+    "Parameters": {
+        "AttractiveItemSet": {
+            "Value": [],
+            "TypeHint": "String",
+            "Description": "Items that trigger breeding when fed to tamed animal"
+        },
+        "BreedCooldownTimeout": {
+            "Value": ["PT2H30M", "PT2H30M"],
+            "Description": "Cooldown between breeding (ISO 8601 game-time, 30x real). Default 5 real min."
+        }
+    },
+    "Instructions": [
+        {
+            "_op": "add",
+            "_index": 0,
+            "Continue": true,
+            "$Comment": "[HYTAME] Clear breed cooldown when passed",
+            "Sensor": {
+                "Type": "Alarm",
+                "Name": "Breed_Cooldown",
+                "State": "Passed",
+                "Clear": true
+            },
+            "Actions": [
+                { "Type": "Nothing" }
+            ]
+        }
+    ]
+}

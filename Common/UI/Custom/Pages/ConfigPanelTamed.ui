@@ -1,0 +1,181 @@
+$C = "../Common.ui";
+
+// Tamed animals tab — two-column layout: scroll list + detail panel
+// Shows all tamed animal instances with status, growth, and management actions
+
+Group {
+  LayoutMode: Center;
+
+  $C.@Container #mainPanel {
+    Anchor: (Width: 1100, Height: 960);
+
+    #Title {
+      $C.@Title #titleLabel {
+        @Text = "HYTAME CONFIGURATION";
+      }
+    }
+
+    #Content {
+      LayoutMode: Left;
+      Padding: (Full: 16);
+
+      Group #rightColumn {
+        LayoutMode: Top;
+        FlexWeight: 1;
+
+        // Tab bar
+        Group #tabBar {
+          LayoutMode: Left;
+          Anchor: (Height: 36, Bottom: 8);
+
+          TextButton #tabListBtn {
+            Anchor: (Width: 120, Height: 32, Right: 4);
+            Text: "LIST";
+            Style: $C.@SecondaryTextButtonStyle;
+          }
+          TextButton #tabTamedBtn {
+            Anchor: (Width: 120, Height: 32, Right: 4);
+            Text: "TAMED";
+            Style: $C.@SecondaryTextButtonStyle;
+          }
+          TextButton #tabEditBtn {
+            Anchor: (Width: 120, Height: 32);
+            Text: "EDIT";
+            Style: $C.@SecondaryTextButtonStyle;
+          }
+        }
+
+        // Section header
+        Label {
+          Text: "TAMED ANIMALS";
+          Style: (FontSize: 14, RenderBold: true, TextColor: #ffaa00);
+          Anchor: (Height: 24, Bottom: 2);
+        }
+        Label #tamedSubtitle {
+          Text: "Browse your tamed animals.";
+          Style: (FontSize: 11, TextColor: #666666);
+          Anchor: (Height: 16, Bottom: 6);
+        }
+
+        // Search bar
+        Group {
+          LayoutMode: Left;
+          Anchor: (Height: 36, Bottom: 8);
+
+          $C.@TextField #tamedSearch {
+            FlexWeight: 1;
+            Anchor: (Height: 36, Right: 4);
+            PlaceholderText: "Search tamed animals...";
+          }
+          $C.@SecondaryTextButton #tamedSearchBtn {
+            @Anchor = (Width: 90, Height: 36);
+            Text: "GO";
+          }
+        }
+
+        // Main content: scroll list (left) + detail panel (right)
+        Group #tamedContent {
+          LayoutMode: Left;
+          FlexWeight: 1;
+
+          // Left: table header + scrollable list
+          Group #tamedListSide {
+            LayoutMode: Top;
+            FlexWeight: 1;
+            Padding: (Right: 8);
+
+            // Column headers
+            Group #tamedTableHeader {
+              LayoutMode: Left;
+              Anchor: (Height: 22, Bottom: 4);
+              Padding: (Horizontal: 8);
+
+              Label { Anchor: (Width: 40); Text: ""; Style: (FontSize: 11, TextColor: #888888); }
+              Label { FlexWeight: 1; Text: "NAME"; Style: (FontSize: 11, TextColor: #888888); }
+              Label { Anchor: (Width: 80); Text: "STATUS"; Style: (FontSize: 11, TextColor: #888888, Alignment: Center); }
+              Label { Anchor: (Width: 70); Text: "GROWTH"; Style: (FontSize: 11, TextColor: #888888, Alignment: Center); }
+            }
+
+            // Scrollable animal rows
+            Group #animalRows {
+              LayoutMode: TopScrolling;
+              ScrollbarStyle: $C.@DefaultScrollbarStyle;
+              FlexWeight: 1;
+              Background: $C.@InputBoxBackground;
+              Padding: (Horizontal: 8, Vertical: 6);
+            }
+          }
+
+          // Right: detail panel
+          Group #tamedDetailPanel {
+            LayoutMode: Top;
+            Anchor: (Width: 380);
+            Background: $C.@InputBoxBackground;
+            Padding: (Full: 12);
+
+            Label #tamedDetailTitle {
+              Text: "Select a tamed animal";
+              Style: (FontSize: 13, RenderBold: true, TextColor: #ffaa00);
+              Anchor: (Height: 22, Bottom: 10);
+            }
+
+            // Type
+            Label { Text: "Type"; Style: (FontSize: 11, TextColor: #888888); Anchor: (Height: 16, Bottom: 2); }
+            Label #tamedDetailType { Text: "-"; Style: (FontSize: 12, TextColor: #cccccc); Anchor: (Height: 18, Bottom: 8); }
+
+            // Owner
+            Label { Text: "Owner"; Style: (FontSize: 11, TextColor: #888888); Anchor: (Height: 16, Bottom: 2); }
+            Label #tamedDetailOwner { Text: "-"; Style: (FontSize: 12, TextColor: #cccccc); Anchor: (Height: 18, Bottom: 8); }
+
+            // Status (container populated via appendInline for dynamic color)
+            Label { Text: "Status"; Style: (FontSize: 11, TextColor: #888888); Anchor: (Height: 16, Bottom: 2); }
+            Group #tamedDetailStatus { Anchor: (Height: 18, Bottom: 8); }
+
+            // Growth
+            Label { Text: "Growth Stage"; Style: (FontSize: 11, TextColor: #888888); Anchor: (Height: 16, Bottom: 2); }
+            Label #tamedDetailGrowth { Text: "-"; Style: (FontSize: 12, TextColor: #cccccc); Anchor: (Height: 18, Bottom: 8); }
+
+            // Position
+            Label { Text: "Last Position"; Style: (FontSize: 11, TextColor: #888888); Anchor: (Height: 16, Bottom: 2); }
+            Label #tamedDetailPosition { Text: "-"; Style: (FontSize: 12, TextColor: #cccccc); Anchor: (Height: 18, Bottom: 8); }
+
+            // Tamed date
+            Label { Text: "Tamed"; Style: (FontSize: 11, TextColor: #888888); Anchor: (Height: 16, Bottom: 2); }
+            Label #tamedDetailTamedTime { Text: "-"; Style: (FontSize: 12, TextColor: #cccccc); Anchor: (Height: 18, Bottom: 12); }
+
+            // Rename input + button
+            Label { Text: "Rename"; Style: (FontSize: 11, TextColor: #888888); Anchor: (Height: 16, Bottom: 2); }
+            Group {
+              LayoutMode: Left;
+              Anchor: (Height: 34, Bottom: 10);
+
+              $C.@TextField #tamedRenameInput {
+                FlexWeight: 1;
+                Anchor: (Height: 34, Right: 4);
+              }
+              $C.@SecondaryTextButton #tamedRenameBtn {
+                @Anchor = (Width: 100, Height: 34);
+                Text: "RENAME";
+              }
+            }
+
+            // Release button
+            $C.@SecondaryTextButton #tamedReleaseBtn {
+              @Anchor = (Height: 36);
+              Text: "RELEASE ANIMAL";
+            }
+          }
+        }
+
+        // Hidden action fields
+        $C.@TextField #actionSwitchToList { Anchor: (Width: 0, Height: 0); }
+        $C.@TextField #actionSwitchToEdit { Anchor: (Width: 0, Height: 0); }
+        $C.@TextField #actionSwitchToTamed { Anchor: (Width: 0, Height: 0); }
+        $C.@TextField #actionSearchAnimals { Anchor: (Width: 0, Height: 0); }
+        $C.@TextField #actionTamedRename { Anchor: (Width: 0, Height: 0); }
+        $C.@TextField #actionTamedRelease { Anchor: (Width: 0, Height: 0); }
+      }
+    }
+  }
+
+}

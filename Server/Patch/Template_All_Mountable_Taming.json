@@ -1,0 +1,148 @@
+{
+    "$Comment": "Add taming to mountable creatures (if another mod adds mounting)",
+    "_BaseAssetPath": "regex:Server/NPC/Roles/_Core/Templates/Template_(?!Animal_Neutral\\b|Livestock\\b).+\\.json",
+    "_priority": 100,
+    "InteractionInstruction": {
+        "Instructions": [
+            {
+                "_find": {
+                    "Enabled": {
+                        "Compute": "IsMountable"
+                    }
+                },
+                "Instructions": [
+                    {
+                        "_op": "addBefore",
+                        "_index": 0,
+                        "$Comment": "Default interactable off — overridden by taming hint when conditions match",
+                        "Enabled": {
+                            "Compute": "!isEmptyStringArray(AttractiveItemSet)"
+                        },
+                        "Continue": true,
+                        "Sensor": {
+                            "Type": "Any"
+                        },
+                        "Actions": [
+                            {
+                                "Type": "SetInteractable",
+                                "Interactable": false
+                            }
+                        ]
+                    },
+                    {
+                        "_op": "addBefore",
+                        "_index": 1,
+                        "$Comment": "Taming hint: Wild + IsTameable + player has AttractiveItemSet",
+                        "Enabled": {
+                            "Compute": "!isEmptyStringArray(AttractiveItemSet)"
+                        },
+                        "Continue": true,
+                        "Sensor": {
+                            "Type": "And",
+                            "Sensors": [
+                                {
+                                    "Type": "IsTameable",
+                                    "Set": true
+                                },
+                                {
+                                    "Type": "Not",
+                                    "Sensor": {
+                                        "Type": "Tamed",
+                                        "Set": true
+                                    }
+                                },
+                                {
+                                    "Type": "Player",
+                                    "Range": 5,
+                                    "Filters": [
+                                        {
+                                            "Type": "ItemInHand",
+                                            "Items": {
+                                                "Compute": "AttractiveItemSet"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "Actions": [
+                            {
+                                "Type": "SetInteractable",
+                                "Interactable": true,
+                                "ShowPrompt": true
+                            }
+                        ]
+                    },
+                    {
+                        "_op": "addBefore",
+                        "_index": 2,
+                        "$Comment": "Breeding hint: Tamed + player has AttractiveItemSet",
+                        "Enabled": {
+                            "Compute": "!isEmptyStringArray(AttractiveItemSet)"
+                        },
+                        "Continue": true,
+                        "Sensor": {
+                            "Type": "And",
+                            "Sensors": [
+                                {
+                                    "Type": "Tamed",
+                                    "Set": true
+                                },
+                                {
+                                    "Type": "Player",
+                                    "Range": 5,
+                                    "Filters": [
+                                        {
+                                            "Type": "ItemInHand",
+                                            "Items": {
+                                                "Compute": "AttractiveItemSet"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "Actions": [
+                            {
+                                "Type": "SetInteractable",
+                                "Interactable": true,
+                                "ShowPrompt": true
+                            }
+                        ]
+                    },
+                    {
+                        "_op": "addBefore",
+                        "_index": 3,
+                        "$Comment": "Feed/breed/tame on F-key — only when player has food, so empty-hand F falls through to mount",
+                        "Enabled": {
+                            "Compute": "!isEmptyStringArray(AttractiveItemSet)"
+                        },
+                        "Sensor": {
+                            "Type": "And",
+                            "Sensors": [
+                                {
+                                    "Type": "Player",
+                                    "Range": 5,
+                                    "Filters": [
+                                        {
+                                            "Type": "ItemInHand",
+                                            "Items": {
+                                                "Compute": "AttractiveItemSet"
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Type": "HasInteracted"
+                                }
+                            ]
+                        },
+                        "Actions": [
+                            { "Type": "HyTameFeedInteraction" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

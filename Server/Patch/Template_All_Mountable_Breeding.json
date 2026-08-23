@@ -1,0 +1,5 @@
+{
+    "$Comment": "Breeding hints for mountable creatures — actual feed/breed handled by Template_All_Taming",
+    "_BaseAssetPath": "regex:Server/NPC/Roles/_Core/Templates/Template_(?!Animal_Neutral\\b|Livestock\\b).+\\.json",
+    "_priority": 100
+}

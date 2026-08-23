@@ -1,0 +1,10 @@
+{
+    "$Comment": "Default AttractiveItemSet for passive swimming creatures",
+    "_BaseAssetPath": "Server/NPC/Roles/_Core/Templates/Template_Swimming_Passive.json",
+    "_priority": 100,
+    "Parameters": {
+        "AttractiveItemSet": {
+            "Value": ["Plant_Crop_Wheat_Item"]
+        }
+    }
+}
