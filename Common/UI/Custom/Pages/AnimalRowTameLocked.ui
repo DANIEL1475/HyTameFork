@@ -1,0 +1,37 @@
+$C = "../Common.ui";
+
+// Animal row variant for livestock (taming always on, shown as text label)
+// Layout: [icon 36px] [name button fills] [tame label 90px] [breed 90px]
+
+Group {
+  LayoutMode: Left;
+  Anchor: (Height: 40, Bottom: 2);
+
+  // Icon
+  Group #icon { Anchor: (Width: 36, Height: 36, Right: 4); }
+
+  // Name / select button (fills remaining width)
+  TextButton #selectBtn {
+    FlexWeight: 1;
+    Anchor: (Height: 34, Right: 4);
+    Text: "";
+    Style: $C.@SecondaryTextButtonStyle;
+  }
+
+  // Food icons (up to 3 + overflow indicator)
+  Group #foodIcons {
+    LayoutMode: Left;
+    Anchor: (Width: 100, Height: 34, Right: 4);
+  }
+
+  // Tame status — plain text label (non-interactive, livestock always ON)
+  Label #tameToggle { Anchor: (Width: 90, Height: 34, Right: 4); Text: "ON"; Style: (FontSize: 14, TextColor: #888888, HorizontalAlignment: Center, VerticalAlignment: Center); }
+
+  // Breed toggle
+  TextButton #breedToggle { Anchor: (Width: 90, Height: 34); Text: "OFF"; Style: $C.@SecondaryTextButtonStyle; }
+
+  // Hidden action fields (one per interactive element)
+  $C.@TextField #selectAction { Anchor: (Width: 0, Height: 0); }
+  $C.@TextField #breedAction { Anchor: (Width: 0, Height: 0); }
+  $C.@TextField #tameAction { Anchor: (Width: 0, Height: 0); }
+}
